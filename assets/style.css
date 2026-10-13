@@ -684,3 +684,6 @@ body.lb-aberto .barra { display: none; }
   margin: 0 auto 18px;
   max-width: 520px;
 }
+
+/* Botão "Enviar as peças guardadas": separado do botão principal */
+.mais .centro { margin: 18px 0 0; font-family: var(--sans); font-size: 14px; }
