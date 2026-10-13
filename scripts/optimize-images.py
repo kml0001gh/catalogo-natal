@@ -8,6 +8,7 @@ Uso:
      .webp o .heic (HEIC solo si está instalado pillow-heif).
   2. python3 scripts/optimize-images.py
   3. Las versiones optimizadas quedan en assets/pecas/<nombre>.jpg
+     (loja.jpg y fachada.jpg salen a 760×460 en assets/).
 
 Empieza en calidad 72 y baja de 6 en 6 hasta cumplir MAX_KB (mínimo 50).
 
@@ -27,10 +28,12 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "assets" / "pecas" / "originais"
 DST = ROOT / "assets" / "pecas"
 SIZE = 800
-QUALITY = 72
+QUALITY = 66
 MIN_QUALITY = 50
 MAX_KB = 90
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".heic"}
+# Fotos que no son cuadradas: nombre → (ancho, alto). El resto sale a SIZE×SIZE.
+WIDE = {"loja": (760, 460), "fachada": (760, 460)}
 
 
 def main() -> None:
@@ -49,7 +52,7 @@ def main() -> None:
     total = 0
     for f in files:
         im = ImageOps.exif_transpose(Image.open(f)).convert("RGB")
-        im = ImageOps.fit(im, (SIZE, SIZE), Image.LANCZOS, centering=(0.5, 0.5))
+        im = ImageOps.fit(im, WIDE.get(f.stem, (SIZE, SIZE)), Image.LANCZOS, centering=(0.5, 0.5))
         q = QUALITY
         while True:
             buf = io.BytesIO()
@@ -58,7 +61,7 @@ def main() -> None:
             if kb <= MAX_KB or q <= MIN_QUALITY:
                 break
             q -= 6
-        out = DST / (f.stem + ".jpg")
+        out = (ROOT / "assets" / (f.stem + ".jpg")) if f.stem in WIDE else DST / (f.stem + ".jpg")
         out.write_bytes(buf.getvalue())
         total += kb
         flag = f"  <-- sigue por encima de {MAX_KB} KB a calidad {q}; busca otra foto" if kb > MAX_KB else ""

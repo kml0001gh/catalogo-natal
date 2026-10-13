@@ -33,6 +33,7 @@ La demo ya lleva 8 fotos de archivo de Pexels (licencia Pexels: uso comercial li
 | `relogio-senhora.jpg` | https://www.pexels.com/photo/14808296/ |
 | `relogio-homem.jpg` | https://www.pexels.com/photo/1697570/ |
 | `cruz-ouro.jpg` | https://www.pexels.com/photo/9173459/ |
+| `assets/loja.jpg` (bloque "A loja") | https://www.pexels.com/photo/30904849/ · alternativa con montra de ouro: https://www.pexels.com/photo/7314460/ |
 
 Si quieres buscar otras:
 
@@ -155,7 +156,8 @@ En ambas opciones no hay build: el directorio de publicación es la raíz del re
 - [ ] **Serviços**: cuáles ofrecen realmente. "Compra de ouro" y "Avaliação de peças" son los más dudosos.
 - [ ] **Serviço de Natal**: embrulho gratuito, vale-prenda, reservas hasta el 24, gravação con un día de antecedência.
 - [ ] **Métodos de pago** (Multibanco, MB WAY, dinheiro) y la frase "há mais de 20 anos".
-- [ ] **Foto de la fachada** para `assets/fachada.jpg` (760×460 o cualquier 16:10; se recorta solo).
+- [ ] **Foto de la loja** real para sustituir `assets/loja.jpg` (hoy es una foto de archivo de un ourives trabajando): copia la tuya como `assets/pecas/originais/loja.jpg` y corre el optimizador; sale recortada a 760×460.
+- [ ] **Texto de "A loja"**: confirmar los años, que trabajan ouro e prata en la propia tienda y que son revendedores Citizen.
 - [ ] **Redes sociales** (Instagram/Facebook) si las tienen.
 - [ ] **Place ID** de Google y si quieren pedir reseñas.
 - [ ] **Etiquetas** "Novidade" / "Mais procurado": qué piezas las llevan (atributo `badge` en las tarjetas).
@@ -171,7 +173,7 @@ assets/app.js            configuración + interactividad
 assets/pecas/            fotos optimizadas (800×800 .jpg)
 assets/pecas/originais/  originales (ignorado por git)
 assets/mapa.jpg          mapa estático (OpenStreetMap)
-assets/fachada.jpg       foto de la tienda (pendiente; hay placeholder)
+assets/loja.jpg          foto del bloque "A loja" (de archivo; sustituir por la real)
 assets/icons/            iconos para el ecrã principal
 manifest.webmanifest     hace la página instalable
 scripts/make-qr.py
