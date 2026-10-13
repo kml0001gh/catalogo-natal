@@ -20,6 +20,21 @@ Abre http://localhost:8000. Para verla en el móvil dentro de la misma wifi, usa
 
 Van en `assets/pecas/` con **exactamente** estos nombres. Mientras falte una foto, la tarjeta muestra un placeholder crema con un motivo de la categoría; nunca un icono roto.
 
+La demo ya lleva 8 fotos de archivo de Pexels (licencia Pexels: uso comercial libre, sin atribución obligatoria). Son de muestra: la idea es sustituirlas por fotos de las piezas reales de la tienda.
+
+| Fichero | Foto de Pexels usada |
+|---|---|
+| `aliancas.jpg` | https://www.pexels.com/photo/265856/ |
+| `pulseira-prata.jpg` | https://www.pexels.com/photo/34549909/ |
+| `fio-prata.jpg` | https://www.pexels.com/photo/12427695/ |
+| `brincos-filigrana.jpg` | https://www.pexels.com/photo/34010223/ |
+| `anel-ouro.jpg` | https://www.pexels.com/photo/2849742/ |
+| `relogio-senhora.jpg` | https://www.pexels.com/photo/14808296/ |
+| `relogio-homem.jpg` | https://www.pexels.com/photo/1697570/ |
+| `cruz-ouro.jpg` | https://www.pexels.com/photo/9173459/ |
+
+Si quieres buscar otras:
+
 | Fichero | Pieza | Términos de búsqueda (Unsplash / Pexels) |
 |---|---|---|
 | `aliancas.jpg` | Alianças em ouro | `gold wedding bands white background`, `two gold rings close up`, `matte gold wedding rings` |
@@ -38,10 +53,11 @@ Busca fotos con fondo claro o blanco para que encajen con el fondo crema. Compru
 Copia los originales en `assets/pecas/originais/` con el nombre final y ejecuta:
 
 ```bash
-bash scripts/optimize-images.sh
+pip install pillow
+python3 scripts/optimize-images.py
 ```
 
-Recorta a cuadrado, redimensiona a 800×800 y comprime a ~60–80 KB. Usa ImageMagick si está instalado y, si no, `sips` (incluido en macOS). Si alguna sale por encima de 90 KB, el script lo avisa; baja `QUALITY` en el script. Con 8 fotos de ≤ 80 KB la página entera queda por debajo de 600 KB (HTML + CSS + JS pesan unos 25 KB).
+Recorta a cuadrado, redimensiona a 800×800 y comprime empezando en calidad 72 y bajando hasta que cada foto pese ≤ 90 KB. Si alguna no baja ni a calidad 50 (fondos con mucho grano), el script lo avisa: mejor buscar otra foto. Con las 8 actuales la página entera pesa unos 400 KB (HTML + CSS + JS son 24 KB).
 
 ## Número de WhatsApp
 
@@ -108,6 +124,6 @@ assets/app.js
 assets/pecas/            fotos optimizadas (800×800 .jpg)
 assets/pecas/originais/  originales (ignorado por git)
 scripts/make-qr.py
-scripts/optimize-images.sh
+scripts/optimize-images.py
 preview-mobile.png       captura a 390 px
 ```
