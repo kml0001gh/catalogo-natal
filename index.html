@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f7f2ea">
+  <meta name="description" content="Demonstração de catálogo de Natal para a Ourivesaria Roque, Torres Vedras.">
+  <title>Ourivesaria Roque · Catálogo de Natal 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <noscript>
+    <!-- Sem JS: a foto fica por cima do placeholder; se faltar, o pseudo-elemento tapa o ícone de imagem partida. -->
+    <style>
+      .foto img { z-index: 2; }
+      .foto img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, #efe7da, #f7f2ea); }
+    </style>
+  </noscript>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f7f2ea' stroke='%23a8894f' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a8894f' stroke-width='2'/%3E%3C/svg%3E">
+</head>
+<body>
+
+  <div class="demo-band" role="note">Exemplo de demonstração · Com as suas peças ficaria assim.</div>
+
+  <header class="cabecalho">
+    <h1>Ourivesaria Roque</h1>
+    <p class="morada">Rua Serpa Pinto 28A · Torres Vedras</p>
+    <p class="subtitulo">Catálogo de Natal 2026</p>
+  </header>
+
+  <main>
+    <p class="intro">Peças escolhidas para oferecer neste Natal. Toque numa peça para pedir informações pelo WhatsApp.</p>
+
+    <nav class="filtros" aria-label="Filtrar por categoria">
+      <button type="button" class="chip" data-filtro="tudo" aria-pressed="true">Tudo</button>
+      <button type="button" class="chip" data-filtro="ouro" aria-pressed="false">Ouro</button>
+      <button type="button" class="chip" data-filtro="prata" aria-pressed="false">Prata</button>
+      <button type="button" class="chip" data-filtro="relogios" aria-pressed="false">Relógios</button>
+      <button type="button" class="chip" data-filtro="aliancas" aria-pressed="false">Alianças</button>
+    </nav>
+
+    <ul class="grelha" id="grelha">
+
+      <li class="peca" data-cat="aliancas" data-nome="Alianças em ouro">
+        <figure class="foto">
+          <img src="assets/pecas/aliancas.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="25" cy="34" r="14"/><circle cx="39" cy="30" r="14"/></svg>
+            <span>Alianças em ouro</span>
+          </div>
+        </figure>
+        <h2>Alianças em ouro</h2>
+        <p>Ouro 19,2 kt, lisas ou com acabamento fosco</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Alian%C3%A7as%20em%20ouro." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="prata" data-nome="Pulseira de prata">
+        <figure class="foto">
+          <img src="assets/pecas/pulseira-prata.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 14c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18z"/><circle cx="32" cy="14" r="4"/><circle cx="48" cy="24" r="4"/><circle cx="48" cy="40" r="4"/><circle cx="32" cy="50" r="4"/><circle cx="16" cy="40" r="4"/><circle cx="16" cy="24" r="4"/></svg>
+            <span>Pulseira de prata</span>
+          </div>
+        </figure>
+        <h2>Pulseira de prata</h2>
+        <p>Prata 925, fecho reforçado</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Pulseira%20de%20prata." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="prata" data-nome="Fio de prata com medalha">
+        <figure class="foto">
+          <img src="assets/pecas/fio-prata.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 10c0 18 8 26 18 30 10-4 18-12 18-30"/><circle cx="32" cy="46" r="8"/></svg>
+            <span>Fio de prata com medalha</span>
+          </div>
+        </figure>
+        <h2>Fio de prata com medalha</h2>
+        <p>Prata 925, medalha gravável</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Fio%20de%20prata%20com%20medalha." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="ouro" data-nome="Brincos em filigrana">
+        <figure class="foto">
+          <img src="assets/pecas/brincos-filigrana.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12v6M44 12v6"/><path d="M20 18c-8 10-8 22 0 30 8-8 8-20 0-30zM44 18c-8 10-8 22 0 30 8-8 8-20 0-30z"/><path d="M20 26v14M44 26v14"/></svg>
+            <span>Brincos em filigrana</span>
+          </div>
+        </figure>
+        <h2>Brincos em filigrana</h2>
+        <p>Ouro, trabalho tradicional português</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Brincos%20em%20filigrana." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="ouro" data-nome="Anel em ouro com pedra">
+        <figure class="foto">
+          <img src="assets/pecas/anel-ouro.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="38" r="15"/><path d="M24 20l8-8 8 8-8 8z"/></svg>
+            <span>Anel em ouro com pedra</span>
+          </div>
+        </figure>
+        <h2>Anel em ouro com pedra</h2>
+        <p>Ouro 19,2 kt, pedra à escolha</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Anel%20em%20ouro%20com%20pedra." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="relogios" data-nome="Relógio Citizen de senhora">
+        <figure class="foto">
+          <img src="assets/pecas/relogio-senhora.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="16"/><path d="M32 22v10l6 4"/><path d="M24 16l2-8h12l2 8M24 48l2 8h12l2-8"/></svg>
+            <span>Relógio Citizen de senhora</span>
+          </div>
+        </figure>
+        <h2>Relógio Citizen de senhora</h2>
+        <p>Eco-Drive, bracelete em aço</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Rel%C3%B3gio%20Citizen%20de%20senhora." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="relogios" data-nome="Relógio Citizen de homem">
+        <figure class="foto">
+          <img src="assets/pecas/relogio-homem.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="18"/><path d="M32 20v12l8 5"/><path d="M22 14l2-8h16l2 8M22 50l2 8h16l2-8"/></svg>
+            <span>Relógio Citizen de homem</span>
+          </div>
+        </figure>
+        <h2>Relógio Citizen de homem</h2>
+        <p>Eco-Drive, mostrador clássico</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Rel%C3%B3gio%20Citizen%20de%20homem." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+      <li class="peca" data-cat="ouro" data-nome="Cruz em ouro">
+        <figure class="foto">
+          <img src="assets/pecas/cruz-ouro.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8v48M18 24h28"/><circle cx="32" cy="8" r="3"/></svg>
+            <span>Cruz em ouro</span>
+          </div>
+        </figure>
+        <h2>Cruz em ouro</h2>
+        <p>Ouro 19,2 kt, para oferecer no batizado ou no Natal</p>
+        <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Cruz%20em%20ouro." target="_blank" rel="noopener">Pedir informações</a>
+      </li>
+
+    </ul>
+
+    <p class="sem-resultados" id="sem-resultados" hidden>Nenhuma peça nesta categoria.</p>
+
+    <section class="mais">
+      <p>Não encontrou o que procura? Temos muitas mais peças na loja. Fale connosco.</p>
+      <a class="btn-wa btn-wa--grande" data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p class="horario">Seg–Sex 9:30–13:00 · 15:00–19:00 · Sáb 9:30–13:00</p>
+    <p>Rua Serpa Pinto 28A · Torres Vedras</p>
+    <p class="autor">Página feita por <a data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener">Camilo Chamorro</a> · Engenheiro informático · Torres Vedras</p>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+
+  <!-- Cloudflare Web Analytics (sem cookies). Substituir TOKEN_AQUI e remover o comentário. Ver README.
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "TOKEN_AQUI"}'></script>
+  -->
+</body>
+</html>

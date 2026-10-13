@@ -1,0 +1,304 @@
+/* Ourivesaria Roque · Catálogo de Natal 2026 — demo estática
+   Mobile-first (390px). Em ecrãs largos centra-se a 720px. */
+
+:root {
+  --crema: #f7f2ea;
+  --crema-2: #efe7da;
+  --tinta: #2b2520;
+  --tinta-2: #6b6159;
+  --dourado: #a8894f;
+  --dourado-2: #c9ad75;
+  --dourado-claro: #e9dcc0;
+  --cinza: #e4dfd6;
+  --banda: #ebe8e3;
+  --serif: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 44px 0 0;               /* espaço para a banda fixa */
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+a { color: var(--dourado); }
+
+/* 1. Banda de demonstração */
+.demo-band {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  background: var(--banda);
+  color: var(--tinta-2);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--cinza);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 2. Cabeçalho */
+.cabecalho {
+  text-align: center;
+  padding: 36px 20px 20px;
+}
+.cabecalho h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+}
+.morada {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tinta-2);
+  letter-spacing: 0.04em;
+}
+.subtitulo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--dourado);
+  margin: 18px 0 0;
+  position: relative;
+}
+.subtitulo::before,
+.subtitulo::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--dourado-2);
+  margin: 0 auto;
+}
+.subtitulo::before { margin-bottom: 10px; }
+.subtitulo::after  { margin-top: 10px; }
+
+/* 3. Intro */
+main { padding: 0 16px 32px; }
+
+.intro {
+  text-align: center;
+  color: var(--tinta-2);
+  font-size: 15px;
+  margin: 0 auto 20px;
+  max-width: 420px;
+}
+
+/* 4. Filtros */
+.filtros {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 2px 0 10px;
+  margin: 0 -16px 14px;
+  padding-inline: 16px;
+}
+.filtros::-webkit-scrollbar { display: none; }
+
+.chip {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 16px;
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--dourado-2);
+  background: transparent;
+  color: var(--tinta);
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip[aria-pressed="true"] {
+  background: var(--dourado);
+  border-color: var(--dourado);
+  color: #fff;
+}
+.chip:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+
+/* 5. Grelha de peças */
+.grelha {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 380px) {
+  .grelha { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (min-width: 760px) {
+  .grelha { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+}
+
+.peca {
+  background: #fffdf9;
+  border: 1px solid var(--cinza);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.peca[hidden] { display: none; }
+
+.foto {
+  margin: 0;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--crema-2);
+  overflow: hidden;
+}
+.foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Placeholder: visível por defeito; escondido quando a foto carrega */
+.ph {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  text-align: center;
+  background: linear-gradient(160deg, var(--crema-2), var(--crema));
+}
+.ph svg {
+  width: 44%;
+  max-width: 96px;
+  height: auto;
+  fill: none;
+  stroke: var(--dourado);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+.ph span {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--tinta-2);
+}
+.peca.has-img .ph { display: none; }
+
+.peca h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.15;
+  margin: 12px 12px 2px;
+}
+.peca p {
+  margin: 0 12px 12px;
+  font-size: 13px;
+  color: var(--tinta-2);
+  flex: 1;
+}
+
+/* Botão WhatsApp (dourado discreto, sem verde) */
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  margin: 0 12px 12px;
+  border-radius: 6px;
+  background: var(--dourado);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-wa::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.4-.2-2.6.7.7-2.5-.3-.4A8 8 0 0 1 12 4zm-3.1 4.3c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.2-.7.1l-1 1.2c-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.4.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5L9.7 8.8c-.2-.4-.4-.4-.6-.4h-.2z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.4-.2-2.6.7.7-2.5-.3-.4A8 8 0 0 1 12 4zm-3.1 4.3c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.2-.7.1l-1 1.2c-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.4.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5L9.7 8.8c-.2-.4-.4-.4-.6-.4h-.2z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.btn-wa:hover, .btn-wa:focus-visible { background: #94773f; }
+.btn-wa:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
+
+.btn-wa--grande {
+  margin: 0;
+  padding: 12px 22px;
+  font-size: 15px;
+}
+
+.sem-resultados {
+  text-align: center;
+  color: var(--tinta-2);
+  padding: 24px 0;
+}
+
+/* 6. Bloco "mais peças" */
+.mais {
+  margin: 32px 0 0;
+  padding: 24px 20px;
+  text-align: center;
+  border-top: 1px solid var(--dourado-claro);
+  border-bottom: 1px solid var(--dourado-claro);
+}
+.mais p {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.3;
+  margin: 0 0 16px;
+}
+
+/* 7. Rodapé */
+.rodape {
+  text-align: center;
+  padding: 24px 20px 40px;
+  font-size: 13px;
+  color: var(--tinta-2);
+}
+.rodape p { margin: 0 0 6px; }
+.horario { color: var(--tinta); }
+.autor {
+  margin-top: 18px !important;
+  font-size: 12px;
+}
+.autor a { color: var(--dourado); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .peca { transition: opacity 0.2s ease; }
+}
