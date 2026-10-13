@@ -87,7 +87,7 @@ Mensajes que se abren en WhatsApp:
 La página ya lleva datos estructurados `JewelryStore` (nombre, dirección, teléfono, horario, coordenadas) en el `<head>`. Para que Google la asocie a la ficha de la tienda:
 
 1. **Reclamar o actualizar la ficha** en https://business.google.com con el mismo nombre, dirección y teléfono que aparecen en la página (deben coincidir letra por letra).
-2. En la ficha, poner esta URL en **Sitio web**. Añadir las piezas en **Produtos** (sin precio o con "Contactar") y una **Publicação** de Natal con el enlace y el QR.
+2. En la ficha, poner en **Sitio web** la entrada de Google: `https://kml0001gh.github.io/catalogo-natal/g/` (o `https://ourivesariaroque.pt/g/` con dominio propio). Añadir las piezas en **Produtos** (sin precio o con "Contactar") y una **Publicação** de Natal con el enlace y el QR.
 3. Activar el botón de **chat / WhatsApp** de la ficha con el mismo número.
 4. El **Place ID** ya está puesto (`ChIJPf7SMcEtHw0RBXhMA-pOBtg`, obtenido de la ficha pública "Ourivesaria Roque Lda"). Si alguna vez cambia, se busca con el Place ID Finder: https://developers.google.com/maps/documentation/places/web-service/place-id.
 5. La línea "4,9 no Google · 48 avaliações" es una **instantánea manual** tomada el 13 de octubre de 2026 de la ficha pública. No se actualiza sola: revisarla de vez en cuando en `index.html` (clase `google-nota`).
@@ -103,12 +103,25 @@ python3 scripts/make-map.py --lat 39.09198 --lon -9.25951
 
 Los iconos para "Adicionar ao ecrã principal" se generan con `python3 scripts/make-icons.py`.
 
+## Dos entradas, contadas por separado
+
+La página principal es el sitio de la tienda. Hay dos puertas de entrada, cada una con su propia dirección corta que solo cuenta la visita y reenvía a la principal:
+
+| Entrada | Dirección | Dónde se usa |
+|---|---|---|
+| Folleto (QR) | `https://kml0001gh.github.io/catalogo-natal/f/` | El QR impreso apunta aquí |
+| Google Maps | `https://kml0001gh.github.io/catalogo-natal/g/` | Campo "Sitio web" del Perfil de Empresa |
+
+Con el beacon de Cloudflare activado en las tres páginas (`index.html`, `f/index.html`, `g/index.html`), el panel de Web Analytics muestra las visitas a `/f/` y `/g/` como rutas separadas: así en enero se puede decir cuántos vinieron del folleto y cuántos de Google. Las visitas que lleguen desde la ficha por otros enlaces (Produtos, publicações) aparecen con referer `google.com`.
+
 ## Generar el QR del folleto
 
 ```bash
 pip install qrcode pillow
-python3 scripts/make-qr.py https://URL-FINAL
+python3 scripts/make-qr.py https://kml0001gh.github.io/catalogo-natal/f/
 ```
+
+El QR apunta a la entrada `/f/` (folleto), no a la raíz, para poder contarla.
 
 Genera `qr-folheto.png` (~1200 px, para imprenta) y `qr-folheto.svg` (vectorial) con corrección de errores H y zona de silencio de 4 módulos. El script imprime el tamaño de módulo que resulta al imprimir a 2,5 cm; si avisa que la URL es larga, usa un subdominio más corto. Imprime siempre el QR sobre fondo blanco o crema muy claro y no lo reduzcas por debajo de 2 cm.
 
@@ -125,8 +138,7 @@ No instala cookies ni requiere banner de consentimiento. Si despliegas en Cloudf
 URL: https://kml0001gh.github.io/catalogo-natal/ · Cada `git push` a `main` redespliega en 1–7 minutos.
 El QR del folleto (`qr-folheto.png` / `.svg`) apunta a esa URL; si cambias de dominio, vuelve a generarlo.
 
-Nombres de proyecto / subdominio sugeridos (cortos, neutros, sin el nombre de la tienda):
-`catalogo-natal` · `montra-tv` · `prendas-natal`
+Para la **demo** el proyecto se llama `catalogo-natal` (neutro, sin el nombre de la tienda). Para **producción**, al enlazar desde la ficha de Google Maps, conviene lo contrario: un dominio con el nombre de la tienda, por ejemplo `ourivesariaroque.pt`, registrado a nombre de la tienda (unos 15 € al año en dns.pt o en cualquier registrador). Una dirección de GitHub en la ficha resta confianza.
 
 ### Opción A: Cloudflare Pages (recomendada)
 

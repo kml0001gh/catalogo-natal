@@ -693,3 +693,16 @@ body.lb-aberto .barra { display: none; }
 .google-nota a { color: var(--tinta); text-decoration: none; }
 .google-nota a:hover, .google-nota a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .estrelas { color: var(--dourado); letter-spacing: 1px; margin-right: 2px; }
+
+/* Portada de sitio de loja: tagline + campanha de temporada */
+.tagline { margin: 10px auto 0; max-width: 360px; font-size: 14px; color: var(--tinta-2); }
+.campanha {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+  margin-bottom: 2px;
+}
