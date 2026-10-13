@@ -10,7 +10,7 @@
 
   var WA_NUMBER = "351963499241";          // WhatsApp (formato internacional, sem +)
   var PHONE = "+351261324959";             // telefone fixo da loja
-  var GOOGLE_PLACE_ID = "";                // Place ID da ficha Google (ver README); vazio = pesquisa por nome
+  var GOOGLE_PLACE_ID = "ChIJPf7SMcEtHw0RBXhMA-pOBtg"; // Place ID da ficha "Ourivesaria Roque Lda" (ver README); vazio = pesquisa por nome
   var INSTAGRAM = "";                      // ex.: "https://www.instagram.com/..."
   var FACEBOOK = "";                       // ex.: "https://www.facebook.com/..."
   var NOME = "Ourivesaria Roque";
@@ -51,6 +51,11 @@
   $$("[data-google]").forEach(function (a) {
     a.href = GOOGLE_PLACE_ID
       ? "https://search.google.com/local/writereview?placeid=" + encodeURIComponent(GOOGLE_PLACE_ID)
+      : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(NOME + ", " + MORADA_MAPS);
+  });
+  $$("[data-reviews]").forEach(function (a) {
+    a.href = GOOGLE_PLACE_ID
+      ? "https://search.google.com/local/reviews?placeid=" + encodeURIComponent(GOOGLE_PLACE_ID)
       : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(NOME + ", " + MORADA_MAPS);
   });
   var redes = $("#redes");

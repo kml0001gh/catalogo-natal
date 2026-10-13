@@ -69,7 +69,7 @@ Todo está al principio de `assets/app.js`:
 |---|---|---|
 | `WA_NUMBER` | WhatsApp, formato internacional sin `+` | `351963499241` (el del autor; cambiar por el de la tienda) |
 | `PHONE` | Teléfono fijo para el botón "Ligar" | `+351261324959` (dato público de la empresa; confirmar) |
-| `GOOGLE_PLACE_ID` | Place ID de la ficha de Google Maps | vacío → el botón "Avalie-nos" abre una búsqueda por nombre |
+| `GOOGLE_PLACE_ID` | Place ID de la ficha de Google Maps | `ChIJPf7SMcEtHw0RBXhMA-pOBtg` (ficha "Ourivesaria Roque Lda"); con él, "Avalie-nos" abre el formulario de reseña y la línea de estrellas abre las reseñas |
 | `INSTAGRAM`, `FACEBOOK` | URLs de redes; si están vacías no se muestran | vacías |
 | `HORARIO` | Horario por día en minutos; alimenta "Aberto agora" y la fila "hoje" | placeholder |
 
@@ -89,9 +89,10 @@ La página ya lleva datos estructurados `JewelryStore` (nombre, dirección, tel�
 1. **Reclamar o actualizar la ficha** en https://business.google.com con el mismo nombre, dirección y teléfono que aparecen en la página (deben coincidir letra por letra).
 2. En la ficha, poner esta URL en **Sitio web**. Añadir las piezas en **Produtos** (sin precio o con "Contactar") y una **Publicação** de Natal con el enlace y el QR.
 3. Activar el botón de **chat / WhatsApp** de la ficha con el mismo número.
-4. Obtener el **Place ID** con el buscador oficial: https://developers.google.com/maps/documentation/places/web-service/place-id (sección "Place ID Finder"). Pegarlo en `GOOGLE_PLACE_ID`: el botón "Avalie-nos no Google" pasará a abrir directamente el formulario de reseña.
-5. Al pasar a producción (dominio propio, fotos reales), **quitar** la línea `<meta name="robots" content="noindex, nofollow">` de `index.html`. Mientras sea demo, debe quedarse.
-6. Opcional: código postal en el JSON-LD (`postalCode`) cuando lo confirmen.
+4. El **Place ID** ya está puesto (`ChIJPf7SMcEtHw0RBXhMA-pOBtg`, obtenido de la ficha pública "Ourivesaria Roque Lda"). Si alguna vez cambia, se busca con el Place ID Finder: https://developers.google.com/maps/documentation/places/web-service/place-id.
+5. La línea "4,9 no Google · 48 avaliações" es una **instantánea manual** tomada el 13 de octubre de 2026 de la ficha pública. No se actualiza sola: revisarla de vez en cuando en `index.html` (clase `google-nota`).
+6. Al pasar a producción (dominio propio, fotos reales), **quitar** la línea `<meta name="robots" content="noindex, nofollow">` de `index.html`. Mientras sea demo, debe quedarse.
+7. Opcional: código postal en el JSON-LD (`postalCode`) cuando lo confirmen.
 
 El mapa de la sección "Onde estamos" es una imagen estática generada desde OpenStreetMap (no carga nada de Google ni pone cookies). Para regenerarlo, por ejemplo si cambian las coordenadas:
 
@@ -159,7 +160,7 @@ En ambas opciones no hay build: el directorio de publicación es la raíz del re
 - [ ] **Foto de la loja** real para sustituir `assets/loja.jpg` (hoy es una foto de archivo de un ourives trabajando): copia la tuya como `assets/pecas/originais/loja.jpg` y corre el optimizador; sale recortada a 760×460.
 - [ ] **Texto de "A loja"**: confirmar los años, que trabajan ouro e prata en la propia tienda y que son revendedores Citizen.
 - [ ] **Redes sociales** (Instagram/Facebook) si las tienen.
-- [ ] **Place ID** de Google y si quieren pedir reseñas.
+- [ ] Si quieren pedir reseñas con el botón "Avalie-nos no Google" (ya enlaza con su ficha, 4,9 con 48 avaliações).
 - [ ] **Etiquetas** "Novidade" / "Mais procurado": qué piezas las llevan (atributo `badge` en las tarjetas).
 - [ ] **Para quem** (atributo `data-para` de cada pieza: `ela`, `ele`, `bebe`).
 - [ ] Si quieren mantener la banda "Exemplo de demonstração" o quitarla al pasar a producción.

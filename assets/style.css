@@ -687,3 +687,9 @@ body.lb-aberto .barra { display: none; }
 
 /* Botão "Enviar as peças guardadas": separado do botão principal */
 .mais .centro { margin: 18px 0 0; font-family: var(--sans); font-size: 14px; }
+
+/* Nota do Google */
+.google-nota { text-align: center; margin: -2px 0 18px; font-size: 14px; }
+.google-nota a { color: var(--tinta); text-decoration: none; }
+.google-nota a:hover, .google-nota a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.estrelas { color: var(--dourado); letter-spacing: 1px; margin-right: 2px; }
