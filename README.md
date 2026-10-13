@@ -2,7 +2,8 @@
 
 Landing estática de demostración para enseñar al dueño de la joyería cómo quedaría un catálogo de Natal con sus piezas. Se abre en el móvil al escanear un QR impreso en un folleto.
 
-- **No es una tienda online**: sin precios, sin carrito, sin cuentas. El único botón es "Pedir informações" por WhatsApp.
+- **No es una tienda online**: sin precios, sin carrito, sin cuentas. El único canal es WhatsApp (por pieza, por servicio, vale-prenda y lista de piezas guardadas).
+- **Qué incluye (v2)**: catálogo con filtros, "Ideias de prenda" (para ela / ele / bebé), peças guardadas con envío por WhatsApp, lightbox con partilhar, serviço de Natal, 8 serviços con pedido de orçamento, bloque "A loja", mapa estático con "Como chegar", botón "Ligar", "Avalie-nos no Google", horário con "Aberto agora", barra inferior fija en móvil, instalable en el ecrã principal, versión imprimible y datos estructurados (JSON-LD) para Google.
 - Un solo `index.html` + CSS y JS vanilla, sin build. Pensada para 390 px de ancho; en escritorio se centra a 720 px.
 - `noindex, nofollow`: no debe aparecer en Google. No la enlaces desde ningún sitio.
 - Sin cookies ni banners. Las visitas se cuentan con Cloudflare Web Analytics (opcional, ver abajo).
@@ -59,13 +60,46 @@ python3 scripts/optimize-images.py
 
 Recorta a cuadrado, redimensiona a 800×800 y comprime empezando en calidad 72 y bajando hasta que cada foto pese ≤ 90 KB. Si alguna no baja ni a calidad 50 (fondos con mucho grano), el script lo avisa: mejor buscar otra foto. Con las 8 actuales la página entera pesa unos 400 KB (HTML + CSS + JS son 24 KB).
 
-## Número de WhatsApp
+## Configuración (número de WhatsApp, teléfono, Google, redes)
 
-Está en un único sitio: la constante `WA_NUMBER` al principio de `assets/app.js`. Formato internacional sin `+` ni espacios (`351963499241`). Los `href` del HTML llevan el número ya resuelto para que la página funcione sin JavaScript; si cambias el número, haz también un buscar-y-reemplazar en `index.html`.
+Todo está al principio de `assets/app.js`:
+
+| Constante | Qué es | Valor actual |
+|---|---|---|
+| `WA_NUMBER` | WhatsApp, formato internacional sin `+` | `351963499241` (el del autor; cambiar por el de la tienda) |
+| `PHONE` | Teléfono fijo para el botón "Ligar" | `+351261324959` (dato público de la empresa; confirmar) |
+| `GOOGLE_PLACE_ID` | Place ID de la ficha de Google Maps | vacío → el botón "Avalie-nos" abre una búsqueda por nombre |
+| `INSTAGRAM`, `FACEBOOK` | URLs de redes; si están vacías no se muestran | vacías |
+| `HORARIO` | Horario por día en minutos; alimenta "Aberto agora" y la fila "hoje" | placeholder |
+
+Los `href` del HTML llevan los valores ya resueltos para que la página funcione sin JavaScript: si cambias el número o el teléfono, haz también un buscar-y-reemplazar en `index.html` (y en el JSON-LD del `<head>`).
 
 Mensajes que se abren en WhatsApp:
 - Por pieza: `Olá, vi o catálogo de Natal da Ourivesaria Roque e gostava de saber mais sobre: {nome da peça}.`
-- Genérico (bloque final y pie): `Olá, vi a demonstração do catálogo de Natal.`
+- Piezas guardadas: `… gostava de saber mais sobre estas peças: A, B e C.`
+- Por servicio: `… gostava de pedir um orçamento para: {serviço}.`
+- Vale-prenda: `… gostava de pedir um vale-prenda.`
+- Genérico (bloque final, contacto, barra inferior y pie): `Olá, vi a demonstração do catálogo de Natal.`
+
+## Ligar la página con Google Maps (Perfil de Empresa)
+
+La página ya lleva datos estructurados `JewelryStore` (nombre, dirección, teléfono, horario, coordenadas) en el `<head>`. Para que Google la asocie a la ficha de la tienda:
+
+1. **Reclamar o actualizar la ficha** en https://business.google.com con el mismo nombre, dirección y teléfono que aparecen en la página (deben coincidir letra por letra).
+2. En la ficha, poner esta URL en **Sitio web**. Añadir las piezas en **Produtos** (sin precio o con "Contactar") y una **Publicação** de Natal con el enlace y el QR.
+3. Activar el botón de **chat / WhatsApp** de la ficha con el mismo número.
+4. Obtener el **Place ID** con el buscador oficial: https://developers.google.com/maps/documentation/places/web-service/place-id (sección "Place ID Finder"). Pegarlo en `GOOGLE_PLACE_ID`: el botón "Avalie-nos no Google" pasará a abrir directamente el formulario de reseña.
+5. Al pasar a producción (dominio propio, fotos reales), **quitar** la línea `<meta name="robots" content="noindex, nofollow">` de `index.html`. Mientras sea demo, debe quedarse.
+6. Opcional: código postal en el JSON-LD (`postalCode`) cuando lo confirmen.
+
+El mapa de la sección "Onde estamos" es una imagen estática generada desde OpenStreetMap (no carga nada de Google ni pone cookies). Para regenerarlo, por ejemplo si cambian las coordenadas:
+
+```bash
+python3 scripts/make-map.py                 # geocodifica la dirección
+python3 scripts/make-map.py --lat 39.09198 --lon -9.25951
+```
+
+Los iconos para "Adicionar ao ecrã principal" se generan con `python3 scripts/make-icons.py`.
 
 ## Generar el QR del folleto
 
@@ -117,17 +151,32 @@ En ambas opciones no hay build: el directorio de publicación es la raíz del re
 - [ ] **Piezas y descripciones**: las 8 son de ejemplo; sustituir por piezas reales y fotos propias.
 - [ ] **Relojes**: si quieren mostrar precio en los relojes (en la demo no hay precios en ninguna pieza).
 - [ ] **Número de WhatsApp** definitivo de la tienda (ahora apunta al del autor).
+- [ ] **Teléfono fijo** 261 324 959 (sacado de un directorio público de empresas).
+- [ ] **Serviços**: cuáles ofrecen realmente. "Compra de ouro" y "Avaliação de peças" son los más dudosos.
+- [ ] **Serviço de Natal**: embrulho gratuito, vale-prenda, reservas hasta el 24, gravação con un día de antecedência.
+- [ ] **Métodos de pago** (Multibanco, MB WAY, dinheiro) y la frase "há mais de 20 anos".
+- [ ] **Foto de la fachada** para `assets/fachada.jpg` (760×460 o cualquier 16:10; se recorta solo).
+- [ ] **Redes sociales** (Instagram/Facebook) si las tienen.
+- [ ] **Place ID** de Google y si quieren pedir reseñas.
+- [ ] **Etiquetas** "Novidade" / "Mais procurado": qué piezas las llevan (atributo `badge` en las tarjetas).
+- [ ] **Para quem** (atributo `data-para` de cada pieza: `ela`, `ele`, `bebe`).
 - [ ] Si quieren mantener la banda "Exemplo de demonstração" o quitarla al pasar a producción.
 
 ## Estructura
 
 ```
-index.html
+index.html               página completa (funciona sin JS)
 assets/style.css
-assets/app.js
+assets/app.js            configuración + interactividad
 assets/pecas/            fotos optimizadas (800×800 .jpg)
 assets/pecas/originais/  originales (ignorado por git)
+assets/mapa.jpg          mapa estático (OpenStreetMap)
+assets/fachada.jpg       foto de la tienda (pendiente; hay placeholder)
+assets/icons/            iconos para el ecrã principal
+manifest.webmanifest     hace la página instalable
 scripts/make-qr.py
 scripts/optimize-images.py
+scripts/make-map.py
+scripts/make-icons.py
 preview-mobile.png       captura a 390 px
 ```

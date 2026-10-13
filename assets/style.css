@@ -16,6 +16,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; }
 
@@ -301,4 +302,354 @@ main { padding: 0 16px 32px; }
 
 @media (prefers-reduced-motion: no-preference) {
   .peca { transition: opacity 0.2s ease; }
+}
+
+/* =====================================================================
+   v2 — negócio completo: estado, âncoras, guardados, lightbox, prendas,
+   serviços, loja, contacto, barra inferior, toast, impressão
+   ===================================================================== */
+
+/* Estado "aberto agora" */
+.estado {
+  display: inline-block;
+  margin: 14px auto 0;
+  font-size: 13px;
+  color: var(--tinta-2);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--crema-2);
+}
+.estado::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #b4a08a;
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+.estado.aberto::before { background: #6f9a5e; }
+
+/* Âncoras de secção */
+.ancoras {
+  display: flex;
+  gap: 18px;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 -16px 18px;
+  padding: 0 16px 6px;
+  border-bottom: 1px solid var(--cinza);
+}
+.ancoras::-webkit-scrollbar { display: none; }
+.ancoras a {
+  flex: 0 0 auto;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+  text-decoration: none;
+  padding: 8px 0;
+}
+.ancoras a:hover, .ancoras a:focus-visible { color: var(--dourado); }
+
+section { scroll-margin-top: 54px; }
+#catalogo { scroll-margin-top: 54px; }
+
+.sec-titulo {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.1;
+  text-align: center;
+  margin: 0 0 6px;
+}
+.sec-sub {
+  text-align: center;
+  color: var(--tinta-2);
+  font-size: 14px;
+  margin: 0 auto 18px;
+  max-width: 440px;
+}
+.sec { margin-top: 44px; }
+
+/* Filtro "para quem" ativo */
+.filtro-ativo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--tinta-2);
+  margin: -4px 0 12px;
+}
+.filtro-ativo button {
+  font: inherit;
+  font-size: 12px;
+  border: 1px solid var(--cinza);
+  background: #fff;
+  color: var(--tinta);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* Etiquetas e botão guardar na foto */
+.badge {
+  position: absolute;
+  left: 10px; top: 10px;
+  z-index: 3;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 253, 249, 0.92);
+  color: var(--dourado);
+  border: 1px solid var(--dourado-claro);
+  border-radius: 999px;
+  padding: 4px 9px;
+}
+.fav {
+  position: absolute;
+  right: 8px; top: 8px;
+  z-index: 3;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--cinza);
+  background: rgba(255, 253, 249, 0.92);
+  color: var(--dourado);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.fav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.fav[aria-pressed="true"] svg { fill: currentColor; }
+.fav:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+.foto[role="button"] { cursor: zoom-in; }
+.foto[role="button"]:focus-visible { outline: 2px solid var(--dourado); outline-offset: -2px; }
+
+/* Fotos largas (loja, mapa) */
+.foto--wide { aspect-ratio: 760 / 460; border-radius: 6px; border: 1px solid var(--cinza); }
+.foto--wide .ph svg { width: 56px; }
+.mapa-link { display: block; text-decoration: none; }
+.mapa-link .foto { cursor: pointer; }
+.atrib { font-size: 11px; color: var(--tinta-2); text-align: right; margin: 4px 0 0; }
+
+/* Ideias de prenda */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.tile {
+  font: inherit;
+  font-size: 14px;
+  color: var(--tinta);
+  background: #fffdf9;
+  border: 1px solid var(--cinza);
+  border-radius: 6px;
+  padding: 16px 8px 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tile svg { width: 34px; height: 34px; fill: none; stroke: var(--dourado); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tile[aria-pressed="true"] { border-color: var(--dourado); background: var(--crema-2); }
+.tile:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+
+/* Listas com ícone (serviço de Natal, confiança) */
+.lista-icones {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 10px;
+}
+.lista-icones li {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #fffdf9;
+  border: 1px solid var(--cinza);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+.lista-icones svg { flex: 0 0 auto; width: 26px; height: 26px; fill: none; stroke: var(--dourado); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; margin-top: 1px; }
+.lista-icones strong { font-weight: 600; display: block; }
+.lista-icones span { color: var(--tinta-2); font-size: 13px; }
+.centro { text-align: center; margin-top: 16px; }
+
+/* Serviços */
+.servicos {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+@media (min-width: 380px) { .servicos { grid-template-columns: repeat(2, 1fr); } }
+.servicos li {
+  background: #fffdf9;
+  border: 1px solid var(--cinza);
+  border-radius: 6px;
+  padding: 14px 14px 12px;
+  display: flex; flex-direction: column;
+}
+.servicos svg { width: 30px; height: 30px; fill: none; stroke: var(--dourado); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 8px; }
+.servicos h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.15;
+  margin: 0 0 4px;
+}
+.servicos p { margin: 0 0 10px; font-size: 13px; color: var(--tinta-2); flex: 1; }
+.servicos a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dourado);
+  text-decoration: none;
+  align-self: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--dourado-claro);
+}
+.servicos a:hover, .servicos a:focus-visible { border-color: var(--dourado); }
+
+/* A loja */
+.loja .foto { margin-bottom: 16px; }
+.loja .texto { font-size: 15px; color: var(--tinta); margin: 0 0 16px; }
+
+/* Contacto */
+.acoes {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin: 16px 0;
+}
+.btn-sec {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--dourado);
+  color: var(--dourado);
+  background: #fffdf9;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-sec svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn-sec:hover, .btn-sec:focus-visible { background: var(--crema-2); }
+.acoes .btn-wa { margin: 0; }
+address { font-style: normal; text-align: center; margin: 14px 0 0; font-size: 15px; }
+
+.horario {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 6px;
+}
+.horario caption {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+  padding: 0 0 8px;
+}
+.horario td { padding: 8px 6px; border-top: 1px solid var(--cinza); }
+.horario td:last-child { text-align: right; color: var(--tinta-2); }
+.horario tr.hoje td { font-weight: 600; color: var(--dourado); }
+.horario tr.hoje td:first-child::after { content: " · hoje"; font-weight: 400; font-size: 12px; }
+.nota { font-size: 12px; color: var(--tinta-2); margin: 8px 0 0; }
+.redes { text-align: center; margin: 16px 0 0; font-size: 14px; }
+.redes a { margin: 0 8px; }
+
+/* Barra inferior fixa (só telemóvel) */
+.barra {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 9;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 1px;
+  background: var(--cinza);
+  border-top: 1px solid var(--cinza);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.barra a {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 52px;
+  background: #fffdf9;
+  color: var(--tinta);
+  font-size: 13px; font-weight: 600;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.barra a svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.barra a.principal { background: var(--dourado); color: #fff; }
+body { padding-bottom: 72px; }
+body.lb-aberto .barra { display: none; }
+@media (min-width: 721px) {
+  .barra { display: none; }
+  body { padding-bottom: 0; }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%; bottom: 84px;
+  transform: translate(-50%, 12px);
+  z-index: 20;
+  background: var(--tinta);
+  color: #fff;
+  font-size: 13px;
+  padding: 9px 14px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+@media (min-width: 721px) { .toast { bottom: 24px; } }
+
+/* Lightbox */
+.lb {
+  border: 0;
+  padding: 0;
+  margin: auto;
+  width: min(100vw - 24px, 520px);
+  max-height: calc(100vh - 24px);
+  background: #fffdf9;
+  color: var(--tinta);
+  border-radius: 8px;
+  overflow: auto;
+}
+.lb::backdrop { background: rgba(43, 37, 32, 0.72); }
+.lb-foto { position: relative; aspect-ratio: 1; background: var(--crema-2); }
+.lb-foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lb-foto .ph { position: absolute; inset: 0; }
+.lb-fechar {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 0; background: rgba(255, 253, 249, 0.92); color: var(--tinta);
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.lb-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 0; background: rgba(255, 253, 249, 0.85); color: var(--tinta);
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.lb-nav.ant { left: 8px; }
+.lb-nav.seg { right: 8px; }
+.lb-corpo { padding: 14px 16px 16px; }
+.lb-corpo h2 { font-family: var(--serif); font-weight: 600; font-size: 24px; line-height: 1.15; margin: 0 0 4px; }
+.lb-corpo p { margin: 0 0 14px; color: var(--tinta-2); font-size: 14px; }
+.lb-acoes { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.lb-acoes .btn-wa { margin: 0; }
+.lb-acoes .btn-sec { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* Impressão: a mesma página serve de folheto */
+@media print {
+  @page { margin: 12mm; }
+  body { padding: 0; background: #fff; max-width: none; }
+  .demo-band, .ancoras, .filtros, .filtro-ativo, .btn-wa, .btn-sec, .fav, .badge, .barra,
+  .toast, .lb, .mais, .tiles, .estado, .acoes, .atrib, #sem-resultados { display: none !important; }
+  .cabecalho { padding-top: 0; }
+  .grelha { grid-template-columns: repeat(3, 1fr); gap: 8mm; }
+  .peca, .servicos li, .lista-icones li, .tile { break-inside: avoid; border-color: #ccc; }
+  .foto--wide { aspect-ratio: auto; }
+  .rodape::after { content: "kml0001gh.github.io/catalogo-natal"; display: block; margin-top: 6px; font-size: 11px; }
+  a { color: inherit; text-decoration: none; }
 }

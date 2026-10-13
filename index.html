@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#f7f2ea">
   <meta name="description" content="Demonstração de catálogo de Natal para a Ourivesaria Roque, Torres Vedras.">
@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Ourivesaria Roque">
   <noscript>
     <!-- Sem JS: a foto fica por cima do placeholder; se faltar, o pseudo-elemento tapa o ícone de imagem partida. -->
     <style>
@@ -18,7 +22,33 @@
       .foto img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, #efe7da, #f7f2ea); }
     </style>
   </noscript>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f7f2ea' stroke='%23a8894f' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a8894f' stroke-width='2'/%3E%3C/svg%3E">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "JewelryStore",
+    "name": "Ourivesaria Roque",
+    "description": "Ourivesaria e relojoaria tradicional em Torres Vedras: ouro, prata, relógios, alianças e reparações.",
+    "url": "https://kml0001gh.github.io/catalogo-natal/",
+    "image": "https://kml0001gh.github.io/catalogo-natal/assets/pecas/aliancas.jpg",
+    "telephone": "+351261324959",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua Serpa Pinto 28A",
+      "addressLocality": "Torres Vedras",
+      "addressRegion": "Lisboa",
+      "addressCountry": "PT"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 39.09198, "longitude": -9.25951 },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:30", "closes": "13:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "15:00", "closes": "19:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:30", "closes": "13:00" }
+    ],
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR",
+    "paymentAccepted": "Multibanco, MB WAY, Dinheiro"
+  }
+  </script>
 </head>
 <body>
 
@@ -28,10 +58,19 @@
     <h1>Ourivesaria Roque</h1>
     <p class="morada">Rua Serpa Pinto 28A · Torres Vedras</p>
     <p class="subtitulo">Catálogo de Natal 2026</p>
+    <p class="estado" id="estado" hidden></p>
   </header>
 
   <main>
-    <p class="intro">Peças escolhidas para oferecer neste Natal. Toque numa peça para pedir informações pelo WhatsApp.</p>
+    <nav class="ancoras" aria-label="Secções">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#prendas">Prendas</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#loja">A loja</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <p class="intro" id="catalogo">Peças escolhidas para oferecer neste Natal. Toque numa peça para pedir informações pelo WhatsApp.</p>
 
     <nav class="filtros" aria-label="Filtrar por categoria">
       <button type="button" class="chip" data-filtro="tudo" aria-pressed="true">Tudo</button>
@@ -39,12 +78,17 @@
       <button type="button" class="chip" data-filtro="prata" aria-pressed="false">Prata</button>
       <button type="button" class="chip" data-filtro="relogios" aria-pressed="false">Relógios</button>
       <button type="button" class="chip" data-filtro="aliancas" aria-pressed="false">Alianças</button>
+      <button type="button" class="chip" data-filtro="guardados" id="chip-guardados" aria-pressed="false" hidden>Guardados (0)</button>
     </nav>
+
+    <p class="filtro-ativo" id="filtro-ativo" hidden>A mostrar: <span></span> <button type="button">Limpar</button></p>
 
     <ul class="grelha" id="grelha">
 
-      <li class="peca" data-cat="aliancas" data-nome="Alianças em ouro">
+      <li class="peca" id="aliancas" data-cat="aliancas" data-nome="Alianças em ouro" data-para="ela ele">
         <figure class="foto">
+          <span class="badge">Mais procurado</span>
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Alianças em ouro" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/aliancas.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="25" cy="34" r="14"/><circle cx="39" cy="30" r="14"/></svg>
@@ -56,8 +100,9 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Alian%C3%A7as%20em%20ouro." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="prata" data-nome="Pulseira de prata">
+      <li class="peca" id="pulseira-prata" data-cat="prata" data-nome="Pulseira de prata" data-para="ela">
         <figure class="foto">
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Pulseira de prata" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/pulseira-prata.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 14c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18z"/><circle cx="32" cy="14" r="4"/><circle cx="48" cy="24" r="4"/><circle cx="48" cy="40" r="4"/><circle cx="32" cy="50" r="4"/><circle cx="16" cy="40" r="4"/><circle cx="16" cy="24" r="4"/></svg>
@@ -69,8 +114,9 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Pulseira%20de%20prata." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="prata" data-nome="Fio de prata com medalha">
+      <li class="peca" id="fio-prata" data-cat="prata" data-nome="Fio de prata com medalha" data-para="ela ele">
         <figure class="foto">
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Fio de prata com medalha" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/fio-prata.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 10c0 18 8 26 18 30 10-4 18-12 18-30"/><circle cx="32" cy="46" r="8"/></svg>
@@ -82,8 +128,10 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Fio%20de%20prata%20com%20medalha." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="ouro" data-nome="Brincos em filigrana">
+      <li class="peca" id="brincos-filigrana" data-cat="ouro" data-nome="Brincos em filigrana" data-para="ela">
         <figure class="foto">
+          <span class="badge">Mais procurado</span>
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Brincos em filigrana" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/brincos-filigrana.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12v6M44 12v6"/><path d="M20 18c-8 10-8 22 0 30 8-8 8-20 0-30zM44 18c-8 10-8 22 0 30 8-8 8-20 0-30z"/><path d="M20 26v14M44 26v14"/></svg>
@@ -95,8 +143,10 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Brincos%20em%20filigrana." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="ouro" data-nome="Anel em ouro com pedra">
+      <li class="peca" id="anel-ouro" data-cat="ouro" data-nome="Anel em ouro com pedra" data-para="ela">
         <figure class="foto">
+          <span class="badge">Novidade</span>
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Anel em ouro com pedra" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/anel-ouro.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="38" r="15"/><path d="M24 20l8-8 8 8-8 8z"/></svg>
@@ -108,8 +158,10 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Anel%20em%20ouro%20com%20pedra." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="relogios" data-nome="Relógio Citizen de senhora">
+      <li class="peca" id="relogio-senhora" data-cat="relogios" data-nome="Relógio Citizen de senhora" data-para="ela">
         <figure class="foto">
+          <span class="badge">Novidade</span>
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Relógio Citizen de senhora" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/relogio-senhora.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="16"/><path d="M32 22v10l6 4"/><path d="M24 16l2-8h12l2 8M24 48l2 8h12l2-8"/></svg>
@@ -121,11 +173,12 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Rel%C3%B3gio%20Citizen%20de%20senhora." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="relogios" data-nome="Relógio Citizen de homem">
+      <li class="peca" id="relogio-homem" data-cat="relogios" data-nome="Relógio Citizen de homem" data-para="ele">
         <figure class="foto">
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Relógio Citizen de homem" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/relogio-homem.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
-            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="18"/><path d="M32 20v12l8 5"/><path d="M22 14l2-8h16l2 8M22 50l2 8h16l2-8"/></svg>
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="16"/><path d="M32 22v10l6 4"/><path d="M24 16l2-8h12l2 8M24 48l2 8h12l2-8"/></svg>
             <span>Relógio Citizen de homem</span>
           </div>
         </figure>
@@ -134,8 +187,9 @@
         <a class="btn-wa" href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20saber%20mais%20sobre%3A%20Rel%C3%B3gio%20Citizen%20de%20homem." target="_blank" rel="noopener">Pedir informações</a>
       </li>
 
-      <li class="peca" data-cat="ouro" data-nome="Cruz em ouro">
+      <li class="peca" id="cruz-ouro" data-cat="ouro" data-nome="Cruz em ouro" data-para="bebe ela ele">
         <figure class="foto">
+          <button type="button" class="fav" aria-pressed="false" aria-label="Guardar: Cruz em ouro" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.3-1.2C5.6 14.7 2.5 11.9 2.5 8.4 2.5 5.6 4.7 3.5 7.5 3.5c1.6 0 3.1.7 4.1 1.9a5.4 5.4 0 0 1 4.1-1.9c2.8 0 5 2.1 5 4.9 0 3.5-3.1 6.3-8.2 10.9L12 20.5z"/></svg></button>
           <img src="assets/pecas/cruz-ouro.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()">
           <div class="ph">
             <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8v48M18 24h28"/><circle cx="32" cy="8" r="3"/></svg>
@@ -149,19 +203,186 @@
 
     </ul>
 
-    <p class="sem-resultados" id="sem-resultados" hidden>Nenhuma peça nesta categoria.</p>
+    <p class="sem-resultados" id="sem-resultados" hidden>Nenhuma peça nesta seleção.</p>
 
     <section class="mais">
       <p>Não encontrou o que procura? Temos muitas mais peças na loja. Fale connosco.</p>
       <a class="btn-wa btn-wa--grande" data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+      <p class="centro"><a class="btn-sec" id="btn-guardados" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.5-1.5-2-1-1 1a4 4 0 0 1-2.5-2.5l1-1-1-2z"/></svg> Enviar as peças guardadas</a></p>
+    </section>
+
+    <section class="sec" id="prendas">
+      <h2 class="sec-titulo">Ideias de prenda</h2>
+      <p class="sec-sub">Escolha para quem é a prenda e mostramos-lhe as peças certas.</p>
+      <div class="tiles">
+        <button type="button" class="tile" data-para="ela" aria-pressed="false">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12v6M44 12v6"/><path d="M20 18c-8 10-8 22 0 30 8-8 8-20 0-30zM44 18c-8 10-8 22 0 30 8-8 8-20 0-30z"/></svg>
+          Para ela
+        </button>
+        <button type="button" class="tile" data-para="ele" aria-pressed="false">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="16"/><path d="M32 22v10l6 4"/><path d="M24 16l2-8h12l2 8M24 48l2 8h12l2-8"/></svg>
+          Para ele
+        </button>
+        <button type="button" class="tile" data-para="bebe" aria-pressed="false">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10v44M20 24h24"/><circle cx="32" cy="10" r="3"/></svg>
+          Para o bebé
+        </button>
+      </div>
+    </section>
+
+    <section class="sec" id="natal">
+      <h2 class="sec-titulo">Serviço de Natal</h2>
+      <p class="sec-sub">Para que oferecer seja tão fácil como escolher.</p>
+      <ul class="lista-icones">
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="26" width="40" height="28" rx="2"/><path d="M12 26h40M32 26v28"/><path d="M32 26c-6-2-14-6-10-12s10 2 10 12zM32 26c6-2 14-6 10-12s-10 2-10 12z"/></svg><div><strong>Embrulho de prenda gratuito</strong><span>Todas as peças saem prontas a oferecer.</span></div></li>
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="18" width="44" height="28" rx="3"/><path d="M10 28h44"/><path d="M18 38h12"/></svg><div><strong>Vale-prenda de valor à escolha</strong><span>Para quando não sabe o que escolher: oferece a escolha.</span></div></li>
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="40" height="38" rx="3"/><path d="M12 24h40M22 10v8M42 10v8"/><path d="M24 38l6 6 10-12"/></svg><div><strong>Reservas até 24 de dezembro</strong><span>Reserve a peça pelo WhatsApp e levante-a quando lhe der jeito.</span></div></li>
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 48l4-14 22-22 10 10-22 22z"/><path d="M36 16l10 10"/></svg><div><strong>Gravação de nomes e datas</strong><span>Em alianças, medalhas e relógios, com um dia de antecedência.</span></div></li>
+      </ul>
+      <p class="centro"><a class="btn-wa" data-vale href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20vale-prenda." target="_blank" rel="noopener">Pedir um vale-prenda</a></p>
+    </section>
+
+    <section class="sec" id="servicos">
+      <h2 class="sec-titulo">Serviços</h2>
+      <p class="sec-sub">Mais do que vender: cuidamos das suas peças de sempre.</p>
+      <ul class="servicos">
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="16"/><path d="M32 24v10l6 4"/><path d="M24 18l2-8h12l2 8"/><path d="M46 12l6 6-4 4-6-6z"/></svg>
+        <h3>Reparação de relógios</h3>
+        <p>Mecânicos, quartzo e Eco-Drive. Orçamento sem compromisso.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20repara%C3%A7%C3%A3o%20de%20rel%C3%B3gio." data-servico="reparação de relógio" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="26" width="28" height="14" rx="3"/><path d="M46 30h4v6h-4"/><path d="M26 30v6M32 30v6M38 30v6"/></svg>
+        <h3>Pilhas e braceletes</h3>
+        <p>Substituição de pilha na hora e ajuste ou troca de bracelete.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20substitui%C3%A7%C3%A3o%20de%20pilha%20ou%20bracelete." data-servico="substituição de pilha ou bracelete" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="14"/><path d="M12 34h8M44 34h8"/><path d="M16 30l-4 4 4 4M48 30l4 4-4 4"/></svg>
+        <h3>Ajuste de anéis e alianças</h3>
+        <p>Aumentar ou reduzir o tamanho sem perder a forma.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20ajuste%20de%20tamanho%20de%20anel%20ou%20alian%C3%A7a." data-servico="ajuste de tamanho de anel ou aliança" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 48l4-14 22-22 10 10-22 22z"/><path d="M36 16l10 10"/><path d="M14 48l10-4"/></svg>
+        <h3>Gravação personalizada</h3>
+        <p>Nomes, datas e dedicatórias em alianças, medalhas e relógios.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20grava%C3%A7%C3%A3o%20personalizada." data-servico="gravação personalizada" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/><path d="M48 40l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M14 42l1.5 3.5L19 47l-3.5 1.5L14 52l-1.5-3.5L9 47l3.5-1.5z"/></svg>
+        <h3>Limpeza e polimento</h3>
+        <p>Devolvemos o brilho a ouro e prata com polimento profissional.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20limpeza%20e%20polimento%20de%20pe%C3%A7as." data-servico="limpeza e polimento de peças" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 12v40"/><path d="M14 24h36"/><path d="M14 24l-6 14h12z"/><path d="M50 24l-6 14h12z"/><path d="M24 52h16"/></svg>
+        <h3>Avaliação de peças</h3>
+        <p>Avaliação de ouro, prata e relógios para seguro ou partilhas.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20avalia%C3%A7%C3%A3o%20de%20pe%C3%A7as." data-servico="avaliação de peças" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 44c-8-8-8-20 0-28 8 8 8 20 0 28zM44 44c-8-8-8-20 0-28 8 8 8 20 0 28z"/><path d="M32 20v24"/><path d="M20 16v36M44 16v36"/></svg>
+        <h3>Encomendas por medida</h3>
+        <p>Peças feitas à medida, incluindo filigrana tradicional.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20encomenda%20por%20medida." data-servico="encomenda por medida" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      <li>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 42l4-12h32l4 12z"/><path d="M16 30l4-12h24l4 12"/><path d="M26 42v6h12v-6"/></svg>
+        <h3>Compra de ouro</h3>
+        <p>Compramos ouro usado com avaliação transparente e pagamento imediato.</p>
+        <a href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20o%20cat%C3%A1logo%20de%20Natal%20da%20Ourivesaria%20Roque%20e%20gostava%20de%20pedir%20um%20or%C3%A7amento%20para%3A%20compra%20de%20ouro." data-servico="compra de ouro" target="_blank" rel="noopener">Pedir orçamento</a>
+      </li>
+      </ul>
+    </section>
+
+    <section class="sec loja" id="loja">
+      <h2 class="sec-titulo">A loja</h2>
+      <p class="sec-sub">Há mais de 20 anos na Rua Serpa Pinto.</p>
+      <figure class="foto foto--wide">
+        <img src="assets/fachada.jpg" alt="" width="760" height="460" loading="lazy" decoding="async" onerror="this.remove()">
+        <div class="ph">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 26l4-12h36l4 12"/><path d="M10 26c0 4 3 6 6 6s6-2 6-6c0 4 3 6 6 6s6-2 6-6c0 4 3 6 6 6s6-2 6-6c0 4 3 6 6 6s6-2 6-6"/><path d="M14 32v20h36V32"/><path d="M26 52V40h12v12"/></svg>
+          <span>Fotografia da loja</span>
+        </div>
+      </figure>
+      <p class="texto">Ourivesaria e relojoaria tradicional no centro de Torres Vedras, com atendimento de proximidade e peças escolhidas com cuidado. Vendemos relógios Citizen e trabalhamos ouro e prata com o rigor de sempre.</p>
+      <ul class="lista-icones">
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8l20 8v14c0 12-8 22-20 26C20 52 12 42 12 30V16z"/><path d="M24 32l6 6 10-12"/></svg><div><strong>Ouro com contraste legal</strong><span>Peças de ouro 19,2 kt com contraste de garantia.</span></div></li>
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h20l10 10v38H18z"/><path d="M38 8v10h10"/><path d="M24 30h16M24 38h16M24 46h10"/></svg><div><strong>Garantia e fatura em todas as peças</strong><span>Assistência na loja, sem intermediários.</span></div></li>
+        <li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="18" width="48" height="30" rx="3"/><path d="M8 28h48"/><circle cx="20" cy="40" r="3"/></svg><div><strong>Multibanco, MB WAY e dinheiro</strong><span>Pague como lhe for mais cómodo.</span></div></li>
+      </ul>
+    </section>
+
+    <section class="sec" id="contacto">
+      <h2 class="sec-titulo">Onde estamos</h2>
+      <p class="sec-sub">No centro de Torres Vedras, a dois passos da praça.</p>
+      <a class="mapa-link" data-dir href="https://www.google.com/maps/dir/?api=1&destination=Rua%20Serpa%20Pinto%2028A%2C%20Torres%20Vedras" target="_blank" rel="noopener" aria-label="Abrir o mapa com direções no Google Maps">
+        <figure class="foto foto--wide">
+          <img src="assets/mapa.jpg" alt="" width="760" height="460" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="ph">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 56s-16-14-16-28a16 16 0 0 1 32 0c0 14-16 28-16 28z"/><circle cx="32" cy="28" r="6"/></svg>
+            <span>Rua Serpa Pinto 28A</span>
+          </div>
+        </figure>
+      </a>
+      <p class="atrib">Mapa: © OpenStreetMap contributors</p>
+      <address>Rua Serpa Pinto 28A · Torres Vedras</address>
+      <div class="acoes">
+        <a class="btn-sec" data-dir href="https://www.google.com/maps/dir/?api=1&destination=Rua%20Serpa%20Pinto%2028A%2C%20Torres%20Vedras" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg> Como chegar</a>
+        <a class="btn-sec" data-tel href="tel:+351261324959"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg> Ligar 261 324 959</a>
+        <a class="btn-wa" data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn-sec" data-google href="https://www.google.com/maps/search/?api=1&query=Ourivesaria%20Roque%2C%20Rua%20Serpa%20Pinto%2028A%2C%20Torres%20Vedras" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg> Avalie-nos no Google</a>
+      </div>
+      <table class="horario" id="horario">
+        <caption>Horário</caption>
+        <tbody>
+        <tr data-dia="1"><td>Segunda-feira</td><td>9:30–13:00 · 15:00–19:00</td></tr>
+        <tr data-dia="2"><td>Terça-feira</td><td>9:30–13:00 · 15:00–19:00</td></tr>
+        <tr data-dia="3"><td>Quarta-feira</td><td>9:30–13:00 · 15:00–19:00</td></tr>
+        <tr data-dia="4"><td>Quinta-feira</td><td>9:30–13:00 · 15:00–19:00</td></tr>
+        <tr data-dia="5"><td>Sexta-feira</td><td>9:30–13:00 · 15:00–19:00</td></tr>
+        <tr data-dia="6"><td>Sábado</td><td>9:30–13:00</td></tr>
+        <tr data-dia="0"><td>Domingo</td><td>Fechado</td></tr>
+        </tbody>
+      </table>
+      <p class="nota">Em dezembro poderá haver horário alargado. Confirme pelo WhatsApp.</p>
+      <p class="redes" id="redes" hidden><a data-instagram href="#" target="_blank" rel="noopener">Instagram</a><a data-facebook href="#" target="_blank" rel="noopener">Facebook</a></p>
     </section>
   </main>
 
   <footer class="rodape">
-    <p class="horario">Seg–Sex 9:30–13:00 · 15:00–19:00 · Sáb 9:30–13:00</p>
-    <p>Rua Serpa Pinto 28A · Torres Vedras</p>
+    <p class="horario-pe">Seg–Sex 9:30–13:00 · 15:00–19:00 · Sáb 9:30–13:00</p>
+    <p>Rua Serpa Pinto 28A · Torres Vedras · 261 324 959</p>
     <p class="autor">Página feita por <a data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener">Camilo Chamorro</a> · Engenheiro informático · Torres Vedras</p>
   </footer>
+
+  <nav class="barra" aria-label="Ações rápidas">
+    <a class="principal" data-generico href="https://wa.me/351963499241?text=Ol%C3%A1%2C%20vi%20a%20demonstra%C3%A7%C3%A3o%20do%20cat%C3%A1logo%20de%20Natal." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.5-1.5-2-1-1 1a4 4 0 0 1-2.5-2.5l1-1-1-2z"/></svg> WhatsApp</a>
+    <a data-tel href="tel:+351261324959"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg> Ligar</a>
+    <a data-dir href="https://www.google.com/maps/dir/?api=1&destination=Rua%20Serpa%20Pinto%2028A%2C%20Torres%20Vedras" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg> Como chegar</a>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="lb" id="lb" aria-labelledby="lb-nome">
+    <div class="lb-foto">
+      <button type="button" class="lb-fechar" id="lb-fechar" aria-label="Fechar">×</button>
+      <button type="button" class="lb-nav ant" id="lb-ant" aria-label="Peça anterior">‹</button>
+      <button type="button" class="lb-nav seg" id="lb-seg" aria-label="Peça seguinte">›</button>
+      <img id="lb-img" alt="" hidden>
+      <div class="ph" id="lb-ph" hidden></div>
+    </div>
+    <div class="lb-corpo">
+      <h2 id="lb-nome"></h2>
+      <p id="lb-desc"></p>
+      <div class="lb-acoes">
+        <a class="btn-wa" id="lb-wa" href="#" target="_blank" rel="noopener">Pedir informações</a>
+        <button type="button" class="btn-sec" id="lb-partilhar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4"/><path d="M8 8l4-4 4 4"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg> Partilhar</button>
+      </div>
+    </div>
+  </dialog>
 
   <script src="assets/app.js" defer></script>
 
