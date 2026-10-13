@@ -85,6 +85,10 @@ No instala cookies ni requiere banner de consentimiento. Si despliegas en Cloudf
 
 ## Despliegue
 
+**Estado actual**: desplegada en GitHub Pages desde el repo `kml0001gh/catalogo-natal` (rama `main`, raíz).
+URL: https://kml0001gh.github.io/catalogo-natal/ · Cada `git push` a `main` redespliega en 1–7 minutos.
+El QR del folleto (`qr-folheto.png` / `.svg`) apunta a esa URL; si cambias de dominio, vuelve a generarlo.
+
 Nombres de proyecto / subdominio sugeridos (cortos, neutros, sin el nombre de la tienda):
 `catalogo-natal` · `montra-tv` · `prendas-natal`
 
